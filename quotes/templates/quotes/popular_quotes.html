@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Популярные цитаты{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>🔥 Самые популярные цитаты</h2>
+            <span class="badge bg-primary fs-6">Топ-10 по лайкам</span>
+        </div>
+
+        {% if quotes %}
+            <div class="row">
+                {% for quote in quotes %}
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 quote-card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <span class="badge bg-secondary">#{{ forloop.counter }}</span>
+                                    <span class="badge bg-{% if quote.like_percentage > 70 %}success{% elif quote.like_percentage > 30 %}warning{% else %}danger{% endif %}">
+                                        {{ quote.like_percentage|floatformat:0 }}% 👍
+                                    </span>
+                                </div>
+                                
+                                <p class="card-text fst-italic">"{{ quote.text }}"</p>
+                                
+                                <footer class="blockquote-footer mt-3">
+                                    <cite title="{{ quote.source.title }}">
+                                        {{ quote.source.get_source_type_display }} "{{ quote.source.title }}"
+                                        {% if quote.source.year %}({{ quote.source.year }}){% endif %}
+                                    </cite>
+                                </footer>
+                            </div>
+                            <div class="card-footer bg-transparent">
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-success">
+                                        👍 {{ quote.likes }}
+                                    </span>
+                                    <span class="text-danger">
+                                        👎 {{ quote.dislikes }}
+                                    </span>
+                                    <span class="text-muted">
+                                        👀 {{ quote.views }}
+                                    </span>
+                                </div>
+                                <div class="text-center mt-2">
+                                    <small class="text-muted">Вес: {{ quote.weight }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info text-center">
+                <h4>Цитат пока нет! 📝</h4>
+                <p>Добавьте первые цитаты, чтобы они появились здесь</p>
+                <a href="{% url 'add_quote' %}" class="btn btn-primary">Добавить цитату</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

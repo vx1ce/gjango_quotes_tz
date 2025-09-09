@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Добавить цитату{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">➕ Добавить новую цитату</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="id_text" class="form-label">Текст цитаты *</label>
+                        {{ form.text }}
+                        {% if form.text.errors %}
+                            <div class="text-danger">{{ form.text.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_source" class="form-label">Источник *</label>
+                        {{ form.source }}
+                        {% if form.source.errors %}
+                            <div class="text-danger">{{ form.source.errors }}</div>
+                        {% endif %}
+                        <div class="form-text">
+                            <a href="{% url 'add_source' %}" target="_blank">Добавить новый источник</a>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_weight" class="form-label">Вес (1-10) *</label>
+                        {{ form.weight }}
+                        {% if form.weight.errors %}
+                            <div class="text-danger">{{ form.weight.errors }}</div>
+                        {% endif %}
+                        <div class="form-text">
+                            Чем выше вес, тем чаще цитата будет показываться
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            💾 Сохранить цитату
+                        </button>
+                        <a href="{% url 'random_quote' %}" class="btn btn-outline-secondary">
+                            ← Назад
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Добавляем классы Bootstrap к полям формы
+document.addEventListener('DOMContentLoaded', function() {
+    const inputs = document.querySelectorAll('input, textarea, select');
+    inputs.forEach(input => {
+        input.classList.add('form-control');
+    });
+    
+    // Для текстовой области делаем больше строк
+    const textarea = document.getElementById('id_text');
+    if (textarea) {
+        textarea.rows = 4;
+    }
+});
+</script>
+{% endblock %}

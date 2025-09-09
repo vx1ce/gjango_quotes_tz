@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block title %}Статистика и дашборд{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2 class="mb-4">📊 Статистика системы</h2>
+        
+        <!-- Карточки статистики -->
+        <div class="row mb-5">
+            <div class="col-md-3 col-6 mb-3">
+                <div class="card bg-primary text-white text-center">
+                    <div class="card-body">
+                        <h3>{{ total_quotes }}</h3>
+                        <p class="mb-0">Всего цитат</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="card bg-success text-white text-center">
+                    <div class="card-body">
+                        <h3>{{ total_sources }}</h3>
+                        <p class="mb-0">Источников</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="card bg-info text-white text-center">
+                    <div class="card-body">
+                        <h3>{{ total_views }}</h3>
+                        <p class="mb-0">Просмотров</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="card bg-warning text-dark text-center">
+                    <div class="card-body">
+                        <h3>{{ total_likes }}</h3>
+                        <p class="mb-0">Лайков</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Популярные источники -->
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">🏆 Топ-5 источников</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if popular_sources %}
+                            <div class="list-group">
+                                {% for source in popular_sources %}
+                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <strong>{{ source.title }}</strong>
+                                            <br>
+                                            <small class="text-muted">
+                                                {{ source.get_source_type_display }}
+                                                {% if source.year %}({{ source.year }}){% endif %}
+                                            </small>
+                                        </div>
+                                        <div class="text-end">
+                                            <span class="badge bg-primary rounded-pill">{{ source.quote_count }} цитат</span>
+                                            <br>
+                                            <small class="text-success">{{ source.total_likes }} 👍</small>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="text-muted">Нет данных</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Последние цитаты -->
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">🆕 Последние добавленные</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if recent_quotes %}
+                            <div class="list-group">
+                                {% for quote in recent_quotes %}
+                                    <div class="list-group-item">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <strong class="mb-1">"{{ quote.text|truncatewords:10 }}"</strong>
+                                            <small>{{ quote.created_at|timesince }} назад</small>
+                                        </div>
+                                        <small class="text-muted">
+                                            {{ quote.source.title }} • 
+                                            <span class="text-success">{{ quote.likes }}👍</span> • 
+                                            <span class="text-muted">{{ quote.views }}👀</span>
+                                        </small>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="text-muted">Нет данных</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Кнопки действий -->
+        <div class="text-center mt-4">
+            <a href="{% url 'random_quote' %}" class="btn btn-primary me-2">🎲 Случайная цитата</a>
+            <a href="{% url 'add_quote' %}" class="btn btn-success me-2">➕ Добавить цитату</a>
+            <a href="/admin/" target="_blank" class="btn btn-outline-secondary">⚙️ Админ-панель</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

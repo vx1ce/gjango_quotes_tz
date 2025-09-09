@@ -1,0 +1,36 @@
+# Django
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+*.log
+local_settings.py
+db.sqlite3
+media/
+
+# Virtual environment
+myenv/
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Database
+*.sqlite3
+*.db
+
+# Logs
+logs/
+*.log
+
+# Static files collected
+staticfiles/

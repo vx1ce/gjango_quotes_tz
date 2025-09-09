@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block title %}Добавить источник{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow">
+            <div class="card-header bg-info text-white">
+                <h4 class="mb-0">📖 Добавить новый источник</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="id_title" class="form-label">Название *</label>
+                        {{ form.title }}
+                        {% if form.title.errors %}
+                            <div class="text-danger">{{ form.title.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_source_type" class="form-label">Тип источника *</label>
+                        {{ form.source_type }}
+                        {% if form.source_type.errors %}
+                            <div class="text-danger">{{ form.source_type.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_year" class="form-label">Год (необязательно)</label>
+                        {{ form.year }}
+                        {% if form.year.errors %}
+                            <div class="text-danger">{{ form.year.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-info btn-lg">
+                            💾 Сохранить источник
+                        </button>
+                        <a href="{% url 'add_quote' %}" class="btn btn-outline-secondary">
+                            ← Назад к добавлению цитаты
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">📚 Существующие источники</h5>
+            </div>
+            <div class="card-body">
+                {% if sources %}
+                    <div class="row">
+                        {% for source in sources %}
+                            <div class="col-md-6 mb-2">
+                                <span class="badge bg-secondary">{{ source.get_source_type_display }}</span>
+                                {{ source.title }}
+                                {% if source.year %}({{ source.year }}){% endif %}
+                                <span class="badge bg-primary">{{ source.quote_count }} цитат</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-muted">Источников пока нет</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const inputs = document.querySelectorAll('input, select');
+    inputs.forEach(input => {
+        input.classList.add('form-control');
+    });
+});
+</script>
+{% endblock %}
