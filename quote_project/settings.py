@@ -122,3 +122,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+DEBUG = False
+
+ALLOWED_HOSTS = ['vx1ce.pythonanywhere.com']
+
+STATIC_ROOT = '/home/vx1ce/gjango_quotes_tz/static'
