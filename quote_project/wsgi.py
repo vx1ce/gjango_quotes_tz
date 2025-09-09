@@ -2,7 +2,7 @@ import os
 import sys
 
 # Добавьте путь к вашему проекту
-path = '/home/вашusername/django-quotes-app'
+path = '/home/vx1ce/gjango_quotes_tz'
 if path not in sys.path:
     sys.path.append(path)
 
